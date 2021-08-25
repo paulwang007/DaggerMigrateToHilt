@@ -29,21 +29,20 @@ import com.example.android.dagger.settings.SettingsActivity
 import com.example.android.dagger.user.UserManager
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
+import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-
-    @EntryPoint
-    @InstallIn(SingletonComponent::class)
-    interface UserManagerEntryPoint {
-        fun userManager(): UserManager
-    }
 
     // @Inject annotated fields will be provided by Dagger
     @Inject
     lateinit var mainViewModel: MainViewModel
+
+    @Inject
+    val userManager: UserManager
 
     /**
      * If the User is not registered, RegistrationActivity will be launched,
@@ -54,9 +53,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         // Grabs instance of UserManager from the application graph
-        val entryPoint = EntryPointAccessors.fromApplication(applicationContext, UserManagerEntryPoint::class.java)
-        val userManager = entryPoint.userManager()
-//        val userManager = (application as MyApplication).appComponent.userManager()
         if (!userManager.isUserLoggedIn()) {
             if (!userManager.isUserRegistered()) {
                 startActivity(Intent(this, RegistrationActivity::class.java))
