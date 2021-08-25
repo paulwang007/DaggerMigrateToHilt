@@ -20,6 +20,8 @@ import com.example.android.dagger.login.LoginComponent
 import com.example.android.dagger.registration.RegistrationComponent
 import com.example.android.dagger.user.UserComponent
 import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 
 // This module tells a Component which are its subcomponents
 @Module(
@@ -29,4 +31,5 @@ import dagger.Module
         UserComponent::class
     ]
 )
+@InstallIn(SingletonComponent::class)
 class AppSubcomponents
